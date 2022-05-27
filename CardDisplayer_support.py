@@ -9,6 +9,7 @@ import sys
 import tkinter as tk
 import tkinter.ttk as ttk
 from tkinter.constants import *
+import sqlite3 
 import Card
 
 import CardDisplayer
@@ -19,11 +20,21 @@ def display(thisCard: Card.Card):
     root = tk.Tk()
     root.protocol( 'WM_DELETE_WINDOW' , root.destroy)
     # Creates a toplevel widget.
-    global _top1, _w1
+    global _top1, _w1, _thisCard
     _top1 = root
     _w1 = CardDisplayer.Toplevel1(_top1, thisCard)
+    _thisCard = thisCard
+    
     root.mainloop()
 
-
-
-
+def ButtonSaveClick(*args):
+    
+    conn = sqlite3.connect('d:\\NoteLiteRecords.db') 
+    cur = conn.cursor()
+    insertCard = f"insert into cards (title, content) values (?,?);"
+    replaceCard = f"replace  into cards (cardId, title, content) values (?,?,?);"
+    if _thisCard.cardId == 0:
+        cur.execute(insertCard, (_w1.TextTitle.get("1.0",END), _w1.TextContent.get("1.0",END)))
+    else:
+        cur.execute(replaceCard, (_thisCard.cardId, _w1.TextTitle.get("1.0",END), _w1.TextContent.get("1.0",END)))
+    conn.commit()

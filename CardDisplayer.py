@@ -28,18 +28,20 @@ class Toplevel1:
         _tabbg2 = 'grey89' 
         _bgmode = 'light' 
 
-        top.geometry("600x518+958+202")
+        top.geometry("600x518+917+372")
         top.minsize(120, 1)
         top.maxsize(2564, 1421)
         top.resizable(1,  1)
         top.title("Toplevel 0")
         top.configure(background="#d9d9d9")
+        top.configure(highlightbackground="#d9d9d9")
+        top.configure(highlightcolor="black")
 
         self.top = top
 
         self.TextTitle = tk.Text(self.top)
         self.TextTitle.insert(END, thisCard.title)
-        self.TextTitle.place(relx=0.033, rely=0.044, relheight=0.075
+        self.TextTitle.place(relx=0.033, rely=0.058, relheight=0.075
                 , relwidth=0.49)
         self.TextTitle.configure(background="white")
         self.TextTitle.configure(font="TkTextFont")
@@ -50,6 +52,9 @@ class Toplevel1:
         self.TextTitle.configure(selectbackground="#c4c4c4")
         self.TextTitle.configure(selectforeground="black")
         self.TextTitle.configure(wrap="word")
+        self.tooltip_font = "TkDefaultFont"
+        self.TextTitle_tooltip = \
+        ToolTip(self.TextTitle, self.tooltip_font, '''卡片标题''')
 
         self.FrameTag = tk.Frame(self.top)
         self.FrameTag.place(relx=0.033, rely=0.156, relheight=0.122
@@ -58,6 +63,8 @@ class Toplevel1:
         self.FrameTag.configure(borderwidth="2")
         self.FrameTag.configure(relief="groove")
         self.FrameTag.configure(background="#d9d9d9")
+        self.FrameTag.configure(highlightbackground="#d9d9d9")
+        self.FrameTag.configure(highlightcolor="black")
 
         self.TextTag = tk.Text(self.FrameTag)
         self.TextTag.place(relx=0.018, rely=0.365, relheight=0.429
@@ -100,11 +107,14 @@ class Toplevel1:
 
         self.LabelCardId = tk.Label(self.top)
         self.LabelCardId.place(relx=0.717, rely=0.044, height=24, width=124)
+        self.LabelCardId.configure(activebackground="#f9f9f9")
         self.LabelCardId.configure(anchor='w')
         self.LabelCardId.configure(background="#d9d9d9")
         self.LabelCardId.configure(compound='left')
         self.LabelCardId.configure(disabledforeground="#a3a3a3")
         self.LabelCardId.configure(foreground="#000000")
+        self.LabelCardId.configure(highlightbackground="#d9d9d9")
+        self.LabelCardId.configure(highlightcolor="black")
         self.LabelCardId.configure(text="卡片ID：" + str(thisCard.cardId))
 
         self.TextContent = tk.Text(self.top)
@@ -121,5 +131,70 @@ class Toplevel1:
         self.TextContent.configure(selectforeground="black")
         self.TextContent.configure(wrap="word")
 
+        self.ButtonSave = tk.Button(self.top)
+        self.ButtonSave.place(relx=0.833, rely=0.927, height=24, width=47)
+        self.ButtonSave.configure(activebackground="beige")
+        self.ButtonSave.configure(activeforeground="#000000")
+        self.ButtonSave.configure(background="#d9d9d9")
+        self.ButtonSave.configure(command=CardDisplayer_support.ButtonSaveClick)
+        self.ButtonSave.configure(compound='left')
+        self.ButtonSave.configure(disabledforeground="#a3a3a3")
+        self.ButtonSave.configure(foreground="#000000")
+        self.ButtonSave.configure(highlightbackground="#d9d9d9")
+        self.ButtonSave.configure(highlightcolor="black")
+        self.ButtonSave.configure(pady="0")
+        self.ButtonSave.configure(text='''Save''')
 
-
+# Support code for Balloon Help (also called tooltips).
+# derived from http://code.activestate.com/recipes/576688-tooltip-for-tkinter/
+from time import time, localtime, strftime
+class ToolTip(tk.Toplevel):
+    """ Provides a ToolTip widget for Tkinter. """
+    def __init__(self, wdgt, tooltip_font, msg=None, msgFunc=None,
+                 delay=0.5, follow=True):
+        self.wdgt = wdgt
+        self.parent = self.wdgt.master
+        tk.Toplevel.__init__(self, self.parent, bg='black', padx=1, pady=1)
+        self.withdraw()
+        self.overrideredirect(True)
+        self.msgVar = tk.StringVar()
+        if msg is None:
+            self.msgVar.set('No message provided')
+        else:
+            self.msgVar.set(msg)
+        self.msgFunc = msgFunc
+        self.delay = delay
+        self.follow = follow
+        self.visible = 0
+        self.lastMotion = 0
+        tk.Message(self, textvariable=self.msgVar, bg='#FFFFDD',
+                font=tooltip_font,
+                aspect=1000).grid()
+        self.wdgt.bind('<Enter>', self.spawn, '+')
+        self.wdgt.bind('<Leave>', self.hide, '+')
+        self.wdgt.bind('<Motion>', self.move, '+')
+    def spawn(self, event=None):
+        self.visible = 1
+        self.after(int(self.delay * 1000), self.show)
+    def show(self):
+        if self.visible == 1 and time() - self.lastMotion > self.delay:
+            self.visible = 2
+        if self.visible == 2:
+            self.deiconify()
+    def move(self, event):
+        self.lastMotion = time()
+        if self.follow is False:
+            self.withdraw()
+            self.visible = 1
+        self.geometry('+%i+%i' % (event.x_root+20, event.y_root-10))
+        try:
+            self.msgVar.set(self.msgFunc())
+        except:
+            pass
+        self.after(int(self.delay * 1000), self.show)
+    def hide(self, event=None):
+        self.visible = 0
+        self.withdraw()
+    def update(self, msg):
+        self.msgVar.set(msg)
+#                   End of Class ToolTip

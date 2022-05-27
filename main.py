@@ -42,7 +42,7 @@ if __name__ == '__main__':
     
     cur.execute("select * from cards")
     cards = cur.fetchall()
-    print(cards[1])
+    print(cards)
     card = Card.Card(cards[1][0], cards[1][1], cards[1][2])
     
     CardDisplayer_support.display(card)
