@@ -5,24 +5,9 @@ Created on Apr 29, 2022
 '''
 import sqlite3 
 import tkinter
-import test
-import test_support
+import Card
+import CardDisplayer_support
 
-class Card:
-    def __init__(self, cardId, title, content):
-        self.cardId = cardId
-        self.content = content
-        self.title = title
-        self.tags = set()
-        self.relatedCards = set() # set of id
-    
-    def __str__(self):
-        result = "Card id: {cardId}, title:{title}, content:{content}, tags:{tags}, relatedCards:{relatedCards}"
-        return result.format(\
-                             cardId = self.cardId, title = self.title, \
-                             content = self.content, tags = self.tags, \
-                             relatedCards = self.relatedCards)
-        
     # cur.execute(''' create table cards (
     # cardId integer PRIMARY KEY   AUTOINCREMENT,
     # title text NOT NULL,
@@ -38,19 +23,29 @@ class Card:
     # a integer NOT NULL,
     # b integer NOT NULL
     # )''')
-
-if __name__ == '__main__':
+    
+    
     # conn = sqlite3.connect('d:\\NoteLiteRecords.db') 
     # cur = conn.cursor()
     
-    # card1 = Card(0, "card 1", "card content")
+    # card1 = Card.Card(0, "Card 1", "Card content")
     # writeCard = f"insert or replace  into cards (title, content) values (?,?);"
     # cur.execute(writeCard, (card1.title, card1.content))
     # conn.commit()
     
     # cur.execute("select * from cards")
     # print(cur.fetchall())
-    test_support.main('test button')
+
+if __name__ == '__main__':
+    conn = sqlite3.connect('d:\\NoteLiteRecords.db') 
+    cur = conn.cursor()
+    
+    cur.execute("select * from cards")
+    cards = cur.fetchall()
+    print(cards[1])
+    card = Card.Card(cards[1][0], cards[1][1], cards[1][2])
+    
+    CardDisplayer_support.display(card)
     
 
     pass
