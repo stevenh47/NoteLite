@@ -39,7 +39,7 @@ def showList():
     root.mainloop()
 
 def buttonDisplayCardClicked(*args):
-    cardSelected = _w1.listboxCard.curselection()
+    cardSelected = _w1.listboxCards.curselection()
     if len(cardSelected) == 0:
         return
     CardDisplayer_support.display(_cards[cardSelected[0]])
