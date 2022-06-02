@@ -1,3 +1,5 @@
 eclipse.preferences.version=1
 encoding/CardDisplayer.py=utf-8
 encoding/CardDisplayer_support.py=utf-8
+encoding/CardList.py=utf-8
+encoding/CardList_support.py=utf-8

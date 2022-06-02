@@ -6,7 +6,7 @@ Created on Apr 29, 2022
 import sqlite3 
 import tkinter
 import Card
-import CardDisplayer_support
+import CardList_support
 
     # cur.execute(''' create table cards (
     # cardId integer PRIMARY KEY   AUTOINCREMENT,
@@ -37,15 +37,7 @@ import CardDisplayer_support
     # print(cur.fetchall())
 
 if __name__ == '__main__':
-    conn = sqlite3.connect('d:\\NoteLiteRecords.db') 
-    cur = conn.cursor()
-    
-    cur.execute("select * from cards")
-    cards = cur.fetchall()
-    print(cards)
-    card = Card.Card(cards[1][0], cards[1][1], cards[1][2])
-    
-    CardDisplayer_support.display(card)
+    CardList_support.showList()
     
 
     pass
