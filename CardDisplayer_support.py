@@ -22,8 +22,12 @@ def display(thisCard: Card.Card):
     # Creates a toplevel widget.
     global _top1, _w1, _thisCard
     _top1 = root
-    _w1 = CardDisplayer.CardDisplayer(_top1, thisCard)
+    _w1 = CardDisplayer.CardDisplayer(_top1)
     _thisCard = thisCard
+    
+    _w1.textTitle.insert(END, thisCard.title)
+    _w1.labelCardId.configure(text="卡片ID：" + str(thisCard.cardId))
+    _w1.textContent.insert(END, thisCard.content)
     
     root.mainloop()
 

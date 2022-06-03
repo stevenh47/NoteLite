@@ -14,7 +14,7 @@ import CardDisplayer_support
 import Card
 
 class CardDisplayer:
-    def __init__(self, top, thisCard: Card.Card):
+    def __init__(self, top):
         '''This class configures and populates the toplevel window.
            top is the toplevel containing window.'''
         _bgcolor = '#d9d9d9'  # X11 color: 'gray85'
@@ -47,7 +47,6 @@ class CardDisplayer:
         self.top = top
 
         self.textTitle = tk.Text(self.top)
-        self.textTitle.insert(END, thisCard.title)
         self.textTitle.place(relx=0.033, rely=0.058, relheight=0.075
                 , relwidth=0.49)
         self.textTitle.configure(background="white")
@@ -122,7 +121,6 @@ class CardDisplayer:
         self.labelCardId.configure(foreground="#000000")
         self.labelCardId.configure(highlightbackground="#d9d9d9")
         self.labelCardId.configure(highlightcolor="black")
-        self.labelCardId.configure(text="卡片ID：" + str(thisCard.cardId))
 
         self.textContent = ScrolledText(self.top)
         self.textContent.place(relx=0.033, rely=0.309, relheight=0.589
@@ -137,8 +135,6 @@ class CardDisplayer:
         self.textContent.configure(selectbackground="#c4c4c4")
         self.textContent.configure(selectforeground="black")
         self.textContent.configure(wrap="none")
-        
-        self.textContent.insert(END, thisCard.content)
 
         self.buttonSave = tk.Button(self.top)
         self.buttonSave.place(relx=0.833, rely=0.927, height=24, width=47)
