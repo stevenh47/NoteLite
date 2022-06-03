@@ -39,9 +39,16 @@ def buttonDisplayCardClicked(*unused1):
         return
     CardDisplayer_support.display(_cards[cardSelected[0]], cardSelected[0])
 
-def updateList(card: Card.Card, index:int):
-    _cards[index] = card
+def updateList(card: Card.Card, index:int) -> int:
+    newIndex = None
+    if (index == None):
+        _cards.append(card)
+        newIndex = len(_cards) - 1
+    else:
+        _cards[index] = card
+        newIndex = index
     refreshList(_cards)
+    return newIndex
 
 def refreshList(cards: list[Card.Card]):
     _w1.listboxCards.delete(0, END)
@@ -50,3 +57,7 @@ def refreshList(cards: list[Card.Card]):
 
 def listItemDoubleClick(*unused1):
     buttonDisplayCardClicked()
+
+def addButtonClicked(*args):
+    card = Card.Card(0, "", "")
+    CardDisplayer_support.display(card, None)
