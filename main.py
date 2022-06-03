@@ -3,7 +3,6 @@ Created on Apr 29, 2022
 
 @author: steve
 '''
-import sqlite3 
 import tkinter
 import Card
 import CardList_support
@@ -38,6 +37,4 @@ import CardList_support
 
 if __name__ == '__main__':
     CardList_support.showList()
-    
-
     pass

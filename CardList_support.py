@@ -10,23 +10,16 @@ import tkinter as tk
 import tkinter.ttk as ttk
 from tkinter.constants import *
 import Card
-import sqlite3 
 import CardDisplayer_support
 
 
 import CardList
+from DbHelper import DbHelper
 
 def showList():
-    conn = sqlite3.connect('d:\\NoteLiteRecords.db') 
-    cur = conn.cursor()
-    
-    cur.execute("select * from cards")
+    dbHelper = DbHelper()
     global _cards
-    cardTuples = cur.fetchall()
-    _cards = list()
-    for cardTuple in cardTuples:
-        card = Card.Card(cardTuple[0], cardTuple[1], cardTuple[2])
-        _cards.append(card)
+    _cards = dbHelper.readAllCards()
     
     '''Main entry point for the application.'''
     global root

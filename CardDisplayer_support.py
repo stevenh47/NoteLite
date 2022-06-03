@@ -9,21 +9,21 @@ import sys
 import tkinter as tk
 import tkinter.ttk as ttk
 from tkinter.constants import *
-import sqlite3 
 import Card
 
 import CardDisplayer
 import CardList_support
+from DbHelper import DbHelper
 
 def display(thisCard: Card.Card, index:int):
     '''Main entry point for the application.'''
     global root, _top1, _w1, _thisCard, _index
+    _thisCard = thisCard
     root = tk.Tk()
     root.protocol( 'WM_DELETE_WINDOW' , root.destroy)
     # Creates a toplevel widget.
     _top1 = root
     _w1 = CardDisplayer.CardDisplayer(_top1)
-    _thisCard = thisCard
     _index = index
     
     _w1.textTitle.insert(END, thisCard.title)
@@ -33,16 +33,8 @@ def display(thisCard: Card.Card, index:int):
     root.mainloop()
 
 def buttonSaveClick(*args):
-    
-    conn = sqlite3.connect('d:\\NoteLiteRecords.db') 
-    cur = conn.cursor()
-    insertCard = f"insert into cards (title, content) values (?,?);"
-    replaceCard = f"replace  into cards (cardId, title, content) values (?,?,?);"
-    if _thisCard.cardId == 0:
-        cur.execute(insertCard, (_w1.textTitle.get("1.0",END), _w1.textContent.get("1.0",END)))
-    else:
-        cur.execute(replaceCard, (_thisCard.cardId, _w1.textTitle.get("1.0",END), _w1.textContent.get("1.0",END)))
-        _thisCard.content = _w1.textContent.get("1.0",END)
-        _thisCard.title = _w1.textTitle.get("1.0",END)
-        CardList_support.updateList(_thisCard, _index)
-    conn.commit()
+    _thisCard.content = _w1.textContent.get("1.0",END)
+    _thisCard.title = _w1.textTitle.get("1.0",END)
+    dbHlper = DbHelper()
+    newCard = dbHlper.insertOrUpdateCard(_thisCard)
+    CardList_support.updateList(newCard, _index)
