@@ -33,7 +33,7 @@ def showList():
     
     root.mainloop()
 
-def buttonDisplayCardClicked(*args):
+def buttonDisplayCardClicked(*unused1):
     cardSelected = _w1.listboxCards.curselection()
     if len(cardSelected) == 0:
         return
@@ -47,3 +47,6 @@ def refreshList(cards: list[Card.Card]):
     _w1.listboxCards.delete(0, END)
     for card in cards:
         _w1.listboxCards.insert(END, card.title + ":" + card.content)
+
+def listItemDoubleClick(*unused1):
+    buttonDisplayCardClicked()
