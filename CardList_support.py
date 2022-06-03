@@ -36,17 +36,21 @@ def showList():
     global _top1, _w1
     _top1 = root
     _w1 = CardList.CardList(_top1)
+    refreshList(_cards)
     
-    for card in _cards:
-        _w1.listboxCards.insert(END, card.title + ":" + card.content)
     root.mainloop()
 
 def buttonDisplayCardClicked(*args):
     cardSelected = _w1.listboxCards.curselection()
     if len(cardSelected) == 0:
         return
-    CardDisplayer_support.display(_cards[cardSelected[0]])
+    CardDisplayer_support.display(_cards[cardSelected[0]], cardSelected[0])
 
+def updateList(card: Card.Card, index:int):
+    _cards[index] = card
+    refreshList(_cards)
 
-
-
+def refreshList(cards: list[Card.Card]):
+    _w1.listboxCards.delete(0, END)
+    for card in cards:
+        _w1.listboxCards.insert(END, card.title + ":" + card.content)
