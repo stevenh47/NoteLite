@@ -13,7 +13,7 @@ import Card
 
 import CardList_support
 class CardList:
-    def __init__(self, top, cards: list[Card.Card]):
+    def __init__(self, top):
         '''This class configures and populates the toplevel window.
            top is the toplevel containing window.'''
         _bgcolor = '#d9d9d9'  # X11 color: 'gray85'
@@ -56,10 +56,6 @@ class CardList:
         self.listboxCards.configure(selectbackground="#c4c4c4")
         self.listboxCards.configure(selectforeground="black")
         
-        for card in cards:
-            self.listboxCards.insert(END, card.title + ":" + card.content)
-        for index in range(100):
-            self.listboxCards.insert(END, index)
 
         self.ButtonDisplayCard = tk.Button(self.top)
         self.ButtonDisplayCard.place(relx=0.017, rely=0.867, height=24, width=47)

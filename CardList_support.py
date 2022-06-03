@@ -35,7 +35,10 @@ def showList():
     # Creates a toplevel widget.
     global _top1, _w1
     _top1 = root
-    _w1 = CardList.CardList(_top1, _cards)
+    _w1 = CardList.CardList(_top1)
+    
+    for card in _cards:
+        _w1.listboxCards.insert(END, card.title + ":" + card.content)
     root.mainloop()
 
 def buttonDisplayCardClicked(*args):
