@@ -3,9 +3,8 @@ Created on Apr 29, 2022
 
 @author: steve
 '''
-import tkinter
-import Card
 import CardList_support
+from DbHelper import DbHelper
 
     # cur.execute(''' create table cards (
     # cardId integer PRIMARY KEY   AUTOINCREMENT,
@@ -34,6 +33,8 @@ import CardList_support
     
     # cur.execute("select * from cards")
     # print(cur.fetchall())
+    
+    #cur.execute("select sql from sqlite_master where type = 'table' and name = 'cardConnections'")
 
 if __name__ == '__main__':
     CardList_support.showList()

@@ -59,5 +59,5 @@ def listItemDoubleClick(*unused1):
     buttonDisplayCardClicked()
 
 def addButtonClicked(*args):
-    card = Card.Card(0, "", "")
+    card = Card.Card(0, "", "", "")
     CardDisplayer_support.display(card, None)

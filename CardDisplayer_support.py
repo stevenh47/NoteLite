@@ -30,6 +30,7 @@ def display(thisCard: Card.Card, index:int):
     _w1.textTitle.insert(END, thisCard.title)
     updateIdLabel(thisCard.cardId)
     _w1.textContent.insert(END, thisCard.content)
+    _w1.textTag.insert(END, thisCard.tags)
     
     root.mainloop()
 
@@ -43,6 +44,7 @@ def buttonSaveClick(*args):
     global _thisCard, _index
     _thisCard.content = _w1.textContent.get("1.0",END).strip()
     _thisCard.title = _w1.textTitle.get("1.0",END).strip()
+    _thisCard.tags = _w1.textTag.get("1.0", END).strip()
     dbHlper = DbHelper()
     _thisCard = dbHlper.insertOrUpdateCard(_thisCard)
     _index = CardList_support.updateList(_thisCard, _index)
@@ -51,3 +53,9 @@ def buttonSaveClick(*args):
     
 def updateIdLabel(cardId: int):
     _w1.labelCardId.configure(text="卡片ID：" + str(cardId))
+
+def buttonShowTagsClicked(*args):
+    print('CardDisplayer_support.buttonShowTagsClicked')
+    for arg in args:
+        print ('another arg:', arg)
+    sys.stdout.flush()

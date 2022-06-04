@@ -1,9 +1,9 @@
 class Card:
-    def __init__(self, cardId, title, content):
+    def __init__(self, cardId, title, content, tags):
         self.cardId = cardId
         self.content = content
         self.title = title
-        self.tags = set()
+        self.tags = tags
         self.relatedCards = set() # set of id
     
     def __str__(self):
