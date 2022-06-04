@@ -7,6 +7,7 @@
 
 import sys
 import tkinter as tk
+from tkinter import messagebox
 import tkinter.ttk as ttk
 from tkinter.constants import *
 import Card
@@ -33,13 +34,20 @@ def display(thisCard: Card.Card, index:int):
     root.mainloop()
 
 def buttonSaveClick(*args):
+    if _w1.textContent.get("1.0",END).strip() == "":
+        messagebox.showerror("错误", "内容不能为空")
+        return
+    if _w1.textTitle.get("1.0",END).strip() == "":
+        messagebox.showerror("错误", "标题不能为空")
+        return
     global _thisCard, _index
-    _thisCard.content = _w1.textContent.get("1.0",END)
-    _thisCard.title = _w1.textTitle.get("1.0",END)
+    _thisCard.content = _w1.textContent.get("1.0",END).strip()
+    _thisCard.title = _w1.textTitle.get("1.0",END).strip()
     dbHlper = DbHelper()
     _thisCard = dbHlper.insertOrUpdateCard(_thisCard)
     _index = CardList_support.updateList(_thisCard, _index)
     updateIdLabel(_thisCard.cardId)
+    messagebox.showinfo("保存成功", "保存成功")
     
 def updateIdLabel(cardId: int):
     _w1.labelCardId.configure(text="卡片ID：" + str(cardId))
